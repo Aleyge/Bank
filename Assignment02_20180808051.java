@@ -54,6 +54,7 @@ class Account {
         if(amount>0&&balance-amount>0)
             balance-=amount;
     }
+    
 
     @Override
     public String toString() {
@@ -138,8 +139,71 @@ class BusinessAccount extends Account {
     }
 }
 public class Customer{
+    private int id;
+    private String Name;
+    private String Surname;
+    private ArrayList<PersonalAccount> personalAccounts;
 
+    public Customer(int id,String Name, String Surname) {
+        this.Name = Name;
+        this.Surname = Surname;
+        this.id=id;
+    }
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
+    }
+    public String getName() {
+        return Name;
+    }
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+    public String getSurname() {
+        return Surname.toUpperCase();
+    }
+    public void setSurname(String Surname) {
+        this.Surname = Surname;
+    }
+    public void openAccount(String acctNum){
+        PersonalAccount pa =new PersonalAccount(acctNum, this.Name, this.Surname);
+        personalAccounts.add(pa);
+    }
+    public PersonalAccount getAccout(String accountNumber){
+       try {
+        for (int i = 0; i < personalAccounts.size();i++){ 		      
+           if(personalAccounts.get(i).getAcctNum()==accountNumber){
+               return personalAccounts.get(i);
+           }
+           else{
+               int j=0/0;
+           }
+        }   
+       } catch (Exception e) {
+           System.out.println("Fail");
+       } 
+    }
+    public void closeAccount(String accountNum){
+        try {
+            for (int i = 0; i < personalAccounts.size();i++){ 		      
+               if(personalAccounts.get(i).getAcctNum()==accountNumber){
+                   personalAccounts.remove(i);
+               }
+               else{
+                   int j=0/0;
+               }
+            }   
+           } catch (Exception e) {
+               System.out.println("Fail");
+           } 
+    }
+    @Override
+    public String toString() {
+        return  Name +" "+ Surname;
+    }
 }
 public class Company{
-
+    
 }
