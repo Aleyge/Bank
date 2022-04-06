@@ -41,6 +41,131 @@ public class Bank{
     public void addCompany(int CompanyId,int CompanyName){
         Companies.add(new Company(CompanyId,CompanyName));
     }
+    public void addAccount(Account account){
+        Accounts.add(account);
+    }
+    public Customer getCustomer(int id){
+        try {
+            for (int i = 0; i < Customers.size();i++){ 		      
+               if(Customers.get(i).getId()==id){
+                   return Customers.get(i);
+               }
+               else{
+                   int j=0/0;
+               }
+            }   
+           } catch (Exception e) {
+               System.out.println("Fail");
+           } 
+        
+    }
+    public Customer getCustomer(String name, String surname){
+        try{
+        for (int i = 0; i < Customers.size();i++){ 		      
+            if(Customers.get(i).getName()==name&&Customers.get(i).getSurname()==surname){
+                return Customers.get(i);
+            }
+            else{
+                int j=0/0;
+            }
+         }   
+        } catch (Exception e) {
+            System.out.println("Fail");
+        }
+    }
+    public Company getCompany(int id){
+        try {
+            for (int i = 0; i < Companies.size();i++){ 		      
+               if(Companies.get(i).getId()==id){
+                   return Companies.get(i);
+               }
+               else{
+                   int j=0/0;
+               }
+            }   
+           } catch (Exception e) {
+               System.out.println("Fail");
+           } 
+    }
+    public Company getCompany(String name){
+        try{
+            for (int i = 0; i < Companies.size();i++){ 		      
+                if(Companies.get(i).getName()==name){
+                    return Companies.get(i);
+                }
+                else{
+                    int j=0/0;
+                }
+             }   
+            } catch (Exception e) {
+                System.out.println("Fail");
+            }
+    }
+    public Account getAccount(String accountNum){
+        try{
+            for (int i = 0; i < Accounts.size();i++){ 		      
+                if(Accounts.get(i).getName()==name){
+                    return Accounts.get(i);
+                }
+                else{
+                    int j=0/0;
+                }
+             }   
+            } catch (Exception e) {
+                System.out.println("Fail");
+            }
+    }
+    public void transferFunds(String accountFrom, String accountTo,double amount){
+        try {
+            int senderIndex=Accounts.indexOf(accountFrom);
+            int receiverIndex=Accounts.indexOf(accountTo);
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+  
+        try {
+            int balance=Accounts.get(senderIndex).getBalance()-amount;
+            Accounts.get(senderIndex).setBalance(balance);
+            Accounts.get(receiverIndex).setBalance(Accounts.get(receiverIndex).getBalance()+amount);
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+       
+    }
+    public void closeAccount(String accountNum){
+        try {
+            for (int i = 0; i < Accounts.size();i++){ 		      
+               if(Accounts.get(i).getAcctNum()==accountNumber&&
+               Accounts.get(i).getBalance()>0){
+                
+               }
+               else{
+                   int j=0/0;
+               }
+            }   
+           } catch (Exception e) {
+               System.out.println("Fail");
+           } 
+
+        try {
+            for (int i = 0; i < Accounts.size();i++){ 		      
+               if(Accounts.get(i).getAcctNum()==accountNumber){
+                   Accounts.remove(i);
+               }
+               else{
+                   int j=0/0;
+               }
+            }   
+           } catch (Exception e) {
+               System.out.println("Fail");
+           } 
+    }
+    @Override
+    public String toString(){
+        return "/t"+Name+"/t"+Address;
+    }
 }
 class Account {
     private String AcctNum;
@@ -65,6 +190,9 @@ class Account {
 
     public double getBalance() {
         return balance;
+    }
+    public void setBalance(double balance){
+        this.balance=balance;
     }
 
     public void deposit(double amount){
