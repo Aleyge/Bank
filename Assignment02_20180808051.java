@@ -19,7 +19,28 @@ public class Bank{
     private ArrayList<Customer> Customers;
     private ArrayList<Company> Companies;
     private ArrayList<Account> Accounts;
-
+    public Bank(String Name,String Address){
+        this.Name=Name;
+        this.Address=Address;
+    }
+    public String getName(){
+        return Name;
+    }
+    public void setName(String Name){
+        this.Name=Name;
+    }
+    public String getAddress(){
+        return Address;
+    }
+    public void setAddress(String Address){
+        this.Address=Address;
+    }
+    public void addCustomer(int CustomerId, String CustomerName, String CustomerSurname){
+        Customers.add(new Customer(CustomerId,CustomerName,CustomerSurname));
+    }
+    public void addCompany(int CompanyId,int CompanyName){
+        Companies.add(new Company(CompanyId,CompanyName));
+    }
 }
 class Account {
     private String AcctNum;
@@ -69,17 +90,17 @@ class PersonalAccount extends Account{
     Random rnd = new Random();
     int number = rnd.nextInt(9999);
 
-    public PersonalAccount(String AcctNum, String name, String surname) {
+    public PersonalAccount(String AcctNum, String Name, String Surname) {
         super(AcctNum);
-        Name = name;
-        Surname = surname;
+        this.Name = Name;
+        this.Surname = Name;
         this.PIN = String.format("%04d", number);
     }
 
-    public PersonalAccount(String AcctNum, double balance, String name, String surname) {
+    public PersonalAccount(String AcctNum, double balance, String Name, String Surname) {
         super(AcctNum, balance);
-        Name = name;
-        Surname = surname;
+        this.Name = Name;
+        this.Surname = Surname;
         this.PIN = String.format("%04d", number);
     }
 
@@ -87,16 +108,16 @@ class PersonalAccount extends Account{
         return Name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public String getSurname() {
         return Surname.toUpperCase();
     }
 
-    public void setSurname(String surname) {
-        Surname = surname;
+    public void setSurname(String Surname) {
+        this.Surname = Surname;
     }
 
     public String getPIN() {
@@ -204,6 +225,68 @@ public class Customer{
         return  Name +" "+ Surname;
     }
 }
-public class Company{
-    
+class Company {
+    private int id;
+    private String Name;
+    private BusinessAccounts<> businessAccounts;
+
+    public Company(String Name,int id) {
+        this.Name = Name;
+        this.id=id;
+    }
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
+
+    }
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+    public void openAccount(String AcctNum,double Rate){
+        ba=new BusinessAccount(AcctNum,0,Rate);
+
+    }
+    public BusinessAccount getAccount(){
+        return ba;
+    }
+    public PersonalAccount getAccout(String accountNumber){
+        try {
+         for (int i = 0; i < businessAccounts.size();i++){ 		      
+            if(businessAccounts.get(i).getAcctNum()==accountNumber){
+                return businessAccounts.get(i);
+            }
+            else{
+                int j=0/0;
+            }
+         }   
+        } catch (Exception e) {
+            System.out.println("Fail");
+        } 
+     }
+     public void closeAccount(String accountNum){
+         try {
+             for (int i = 0; i < businessAccounts.size();i++){ 		      
+                if(businessAccounts.get(i).getAcctNum==accountNumber){
+                    businessAccounts.remove(i);
+                }
+                else{
+                    int j=0/0;
+                }
+             }   
+            } catch (Exception e) {
+                System.out.println("Fail");
+            } 
+     }
+
+
+    @Override
+    public String toString() {
+        return Name;
+    }
 }
