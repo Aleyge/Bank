@@ -1,10 +1,10 @@
 import java.util.ArrayList;
-
+import java.util.Random;
 /**
  * @author Ali Ege Özceylan
  * @since 06.04.2022
  */
-public class Assignment2_20180808051 {
+public class Assignment02_20180808051 {
 
     public static void main(String[] args) {
         
@@ -13,7 +13,7 @@ public class Assignment2_20180808051 {
 
    
 }
-public class Bank{
+class Bank{
     private String Name;
     private String Address;
     private ArrayList<Customer> Customers;
@@ -38,17 +38,18 @@ public class Bank{
     public void addCustomer(int CustomerId, String CustomerName, String CustomerSurname){
         Customers.add(new Customer(CustomerId,CustomerName,CustomerSurname));
     }
-    public void addCompany(int CompanyId,int CompanyName){
+    public void addCompany(int CompanyId,String CompanyName){
         Companies.add(new Company(CompanyId,CompanyName));
     }
     public void addAccount(Account account){
         Accounts.add(account);
     }
     public Customer getCustomer(int id){
+        int i=0;
         try {
-            for (int i = 0; i < Customers.size();i++){ 		      
+            for (i = 0; i < Customers.size();i++){ 		      
                if(Customers.get(i).getId()==id){
-                   return Customers.get(i);
+                   break;
                }
                else{
                    int j=0/0;
@@ -57,13 +58,14 @@ public class Bank{
            } catch (Exception e) {
                System.out.println("Fail");
            } 
-        
+           return Customers.get(i);
     }
     public Customer getCustomer(String name, String surname){
+        int i=0;
         try{
-        for (int i = 0; i < Customers.size();i++){ 		      
+        for ( i = 0; i < Customers.size();i++){ 		      
             if(Customers.get(i).getName()==name&&Customers.get(i).getSurname()==surname){
-                return Customers.get(i);
+                break;
             }
             else{
                 int j=0/0;
@@ -72,12 +74,14 @@ public class Bank{
         } catch (Exception e) {
             System.out.println("Fail");
         }
+        return Customers.get(i);
     }
     public Company getCompany(int id){
+        int i = 0;
         try {
-            for (int i = 0; i < Companies.size();i++){ 		      
+            for (i = 0; i < Companies.size();i++){ 		      
                if(Companies.get(i).getId()==id){
-                   return Companies.get(i);
+                   break;
                }
                else{
                    int j=0/0;
@@ -86,12 +90,14 @@ public class Bank{
            } catch (Exception e) {
                System.out.println("Fail");
            } 
+           return Companies.get(i);
     }
     public Company getCompany(String name){
+        int i=0;
         try{
-            for (int i = 0; i < Companies.size();i++){ 		      
+            for ( i = 0; i < Companies.size();i++){ 		      
                 if(Companies.get(i).getName()==name){
-                    return Companies.get(i);
+                    break;
                 }
                 else{
                     int j=0/0;
@@ -100,33 +106,56 @@ public class Bank{
             } catch (Exception e) {
                 System.out.println("Fail");
             }
+            return Companies.get(i);
     }
     public Account getAccount(String accountNum){
+        int i = 0;
         try{
-            for (int i = 0; i < Accounts.size();i++){ 		      
-                if(Accounts.get(i).getName()==name){
-                    return Accounts.get(i);
+            for (i = 0; i < Accounts.size();i++){ 		      
+                if(Accounts.get(i).getAcctNum()==accountNum){
+                    break;
                 }
                 else{
                     int j=0/0;
+                    
                 }
              }   
             } catch (Exception e) {
                 System.out.println("Fail");
             }
+            return Accounts.get(i);
     }
     public void transferFunds(String accountFrom, String accountTo,double amount){
+            int senderIndex=0;
+            int receiverIndex=0;
+            int i=0;
         try {
-            int senderIndex=Accounts.indexOf(accountFrom);
-            int receiverIndex=Accounts.indexOf(accountTo);
+            for (i = 0; i < Accounts.size();i++){ 		      
+                if(Accounts.get(i).getAcctNum()==accountFrom){
+                    senderIndex=i;
+                }
+                else{
+                    int j=0/0;
+                    
+                }
+            }
+                for (i = 0; i < Accounts.size();i++){ 		      
+                    if(Accounts.get(i).getAcctNum()==accountTo){
+                        receiverIndex=i;
+                    }
+                    else{
+                        int j=0/0;
+                        
+                    }
+             }   
             
-        } catch (Exception e) {
+    } catch (Exception e) {
             //TODO: handle exception
         }
   
         try {
-            int balance=Accounts.get(senderIndex).getBalance()-amount;
-            Accounts.get(senderIndex).setBalance(balance);
+            double newBalance=(Accounts.get(senderIndex).getBalance()-amount);
+            Accounts.get(senderIndex).setBalance(newBalance);
             Accounts.get(receiverIndex).setBalance(Accounts.get(receiverIndex).getBalance()+amount);
             
         } catch (Exception e) {
@@ -134,10 +163,11 @@ public class Bank{
         }
        
     }
+
     public void closeAccount(String accountNum){
         try {
             for (int i = 0; i < Accounts.size();i++){ 		      
-               if(Accounts.get(i).getAcctNum()==accountNumber&&
+               if(Accounts.get(i).getAcctNum()==accountNum&&
                Accounts.get(i).getBalance()>0){
                 
                }
@@ -151,7 +181,7 @@ public class Bank{
 
         try {
             for (int i = 0; i < Accounts.size();i++){ 		      
-               if(Accounts.get(i).getAcctNum()==accountNumber){
+               if(Accounts.get(i).getAcctNum()==accountNum){
                    Accounts.remove(i);
                }
                else{
@@ -164,7 +194,13 @@ public class Bank{
     }
     @Override
     public String toString(){
-        return "/t"+Name+"/t"+Address;
+        StringBuilder companyInfo=new StringBuilder();
+        StringBuilder customerInfo=new StringBuilder();
+        for (int i = 0; i < Companies.size();i++){
+        companyInfo.append("\t"+Companies.get(i)+"");
+        }
+        return Name+"\t"+Address+
+        "\n";
     }
 }
 class Account {
@@ -287,7 +323,7 @@ class BusinessAccount extends Account {
         return getBalance()*Rate;
     }
 }
-public class Customer{
+class Customer{
     private int id;
     private String Name;
     private String Surname;
@@ -320,11 +356,12 @@ public class Customer{
         PersonalAccount pa =new PersonalAccount(acctNum, this.Name, this.Surname);
         personalAccounts.add(pa);
     }
-    public PersonalAccount getAccout(String accountNumber){
+    public PersonalAccount getAccount(String accountNumber){
+        int i = 0;
        try {
-        for (int i = 0; i < personalAccounts.size();i++){ 		      
+        for (i = 0; i < personalAccounts.size();i++){ 		      
            if(personalAccounts.get(i).getAcctNum()==accountNumber){
-               return personalAccounts.get(i);
+               break;
            }
            else{
                int j=0/0;
@@ -332,12 +369,13 @@ public class Customer{
         }   
        } catch (Exception e) {
            System.out.println("Fail");
-       } 
+       }
+       return personalAccounts.get(i); 
     }
     public void closeAccount(String accountNum){
         try {
             for (int i = 0; i < personalAccounts.size();i++){ 		      
-               if(personalAccounts.get(i).getAcctNum()==accountNumber){
+               if(personalAccounts.get(i).getAcctNum()==accountNum){
                    personalAccounts.remove(i);
                }
                else{
@@ -356,9 +394,9 @@ public class Customer{
 class Company {
     private int id;
     private String Name;
-    private BusinessAccounts<> businessAccounts;
+    private ArrayList<BusinessAccount> businessAccounts;
 
-    public Company(String Name,int id) {
+    public Company(int id,String Name) {
         this.Name = Name;
         this.id=id;
     }
@@ -377,17 +415,16 @@ class Company {
         this.Name = Name;
     }
     public void openAccount(String AcctNum,double Rate){
-        ba=new BusinessAccount(AcctNum,0,Rate);
+        businessAccounts.add(new BusinessAccount(AcctNum,0,Rate));
 
     }
-    public BusinessAccount getAccount(){
-        return ba;
-    }
-    public PersonalAccount getAccout(String accountNumber){
+   
+    public BusinessAccount getAccout(String accountNumber){
+        int i = 0;
         try {
-         for (int i = 0; i < businessAccounts.size();i++){ 		      
+         for ( i = 0; i < businessAccounts.size();i++){ 		      
             if(businessAccounts.get(i).getAcctNum()==accountNumber){
-                return businessAccounts.get(i);
+                break;
             }
             else{
                 int j=0/0;
@@ -396,11 +433,12 @@ class Company {
         } catch (Exception e) {
             System.out.println("Fail");
         } 
+        return businessAccounts.get(i);
      }
      public void closeAccount(String accountNum){
          try {
              for (int i = 0; i < businessAccounts.size();i++){ 		      
-                if(businessAccounts.get(i).getAcctNum==accountNumber){
+                if(businessAccounts.get(i).getAcctNum()==accountNum){
                     businessAccounts.remove(i);
                 }
                 else{
