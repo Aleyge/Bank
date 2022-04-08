@@ -25,6 +25,7 @@ public class Assignment02_20180808051 {
         b.addCustomer(1, "Customer", "1");
         b.addCustomer(2, "Customer","2");
         Customer c = b.getCustomer(1);
+        b.transferFunds("2345", "1235", 500);
         c.openAccount("3456");
         c.openAccount("3457");
         c.getAccount("3456").deposit(150);
@@ -189,8 +190,15 @@ class Bank{
                 bankInfo.append("\t\t"+Companies.get(i).getBusinessAccounts().get(j).getAcctNum()+
                 "\t"+Companies.get(i).getBusinessAccounts().get(j).getRate()+
                 "\t"+Companies.get(i).getBusinessAccounts().get(j).getBalance()+"\n");
-            }
+            }   
         }
+        for (int i = 0; i < Customers.size();i++){
+            bankInfo.append("\t"+Customers.get(i).getName()+Customers.get(i).getSurname()+"\n");
+                for(int j=0;j<Customers.get(i).getPersonalAccounts().size();j++){
+                    bankInfo.append("\t\t"+Customers.get(i).getPersonalAccounts().get(j).getAcctNum()+
+                    "\t"+Customers.get(i).getPersonalAccounts().get(j).getBalance()+"\n");
+                }   
+            }
         return Name+"\t"+Address+"\n"+bankInfo;
     }
 }
@@ -343,6 +351,9 @@ class Customer{
     public void setSurname(String Surname) {
         this.Surname = Surname;
     }
+    public ArrayList<PersonalAccount> getPersonalAccounts(){
+        return personalAccounts;
+    }
     public void openAccount(String acctNum){
         PersonalAccount pa =new PersonalAccount(acctNum, this.Name, this.Surname);
         personalAccounts.add(pa);
@@ -428,11 +439,65 @@ class Company {
         }
         businessAccounts.remove(businessAccounts.indexOf(getAccount(accountNumber)));    
     }
+
     @Override
     public String toString() {
         return Name;
     }
 }
+    
+    class AccountNotFoundException extends RuntimeException{
+        private String acctNum;
+        public AccountNotFoundException(String acctNum){
+            this.acctNum=acctNum;
+        }
+        @Override
+        public String toString() {
+            return "AccountNotFoundException: " + acctNum;
+        }
+    }
+   
+    class BalanceRemainingException extends RuntimeException{
+        private double balance;
+        public BalanceRemainingException(double balance){
+            this.balance=balance;
+        }
+        @Override
+        public String toString() {
+            return "BalanceRemainingException: " + balance;
+        }
+    
+        public double getBalance() {
+            return balance;
+        }
+    }
+
+    class CompanyNotFoundException extends RuntimeException{
+        private int id;
+        private String name;
+    
+        public CompanyNotFoundException(int id){
+            this.id = id;
+            this.name = null;
+        }
+    
+        public CompanyNotFoundException(String name){
+            this.name = name;
+    
+            Random rndm = new Random();
+            this.id = rndm.nextInt(10000);
+        }
+    
+        @Override
+        public String toString() {
+            if(name != null){
+                return "CompanyNotFoundException: name-" + name;
+            }else{
+                return "CompanyNotFoundException: id-" + id;
+            }
+        }
+    }
+
     class CustomerNotFoundException extends RuntimeException{
         private int id;
         private String name;
@@ -462,46 +527,7 @@ class Company {
             }
         }
     }
-    
-    class CompanyNotFoundException extends RuntimeException{
-        private int id;
-        private String name;
-    
-        public CompanyNotFoundException(int id){
-            this.id = id;
-            this.name = null;
-        }
-    
-        public CompanyNotFoundException(String name){
-            this.name = name;
-    
-            Random rndm = new Random();
-            this.id = rndm.nextInt(10000);
-        }
-    
-        @Override
-        public String toString() {
-            if(name != null){
-                return "CompanyNotFoundException: name-" + name;
-            }else{
-                return "CompanyNotFoundException: id-" + id;
-            }
-        }
-    }
-    
-    class AccountNotFoundException extends RuntimeException{
-        private String acctNum;
-        public AccountNotFoundException(String acctNum){
-            this.acctNum=acctNum;
-        }
-        @Override
-        public String toString() {
-            return "AccountNotFoundException{" +
-                    "acctNUm='" + acctNum + '\'' +
-                    '}';
-        }
-    }
-    
+
     class InvalidAmountException extends RuntimeException{
         private double amount;
 
@@ -510,25 +536,7 @@ class Company {
         }
         @Override
         public String toString() {
-            return "InvalidAmountException{" +
-                    "amount=" + amount +
-                    '}';
+            return "InvalidAmountException: " + amount ;
         }
     }
     
-    class BalanceRemainingException extends RuntimeException{
-        private double balance;
-        public BalanceRemainingException(double balance){
-            this.balance=balance;
-        }
-        @Override
-        public String toString() {
-            return "BalanceRemainingException{" +
-                    "balance=" + balance +
-                    '}';
-        }
-    
-        public double getBalance() {
-            return balance;
-        }
-    }
